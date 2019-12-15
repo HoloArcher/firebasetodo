@@ -1,8 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
+import vuetify from './plugins/vuetify';
+import router from './router'
+
+
 
 Vue.config.productionTip = false
 
+// router.beforeEach((to, from, next) => {
+  
+//   // var authorized = (localStorage.getItem('token')) ? localStorage.getItem('token') : undefined;
+//   // if (typeof authorized === 'undefined' && to.path == '/todos') {
+//   //   return next('/')
+//   // } else if (authorized && to.path === '/') {
+//   //   next('/todos')
+//   // }
+//   // else {
+//   //   next()
+//   // }
+// })
+
 new Vue({
-  render: h => h(App),
+  vuetify,
+  router,
+  render: h => h(App)
 }).$mount('#app')
