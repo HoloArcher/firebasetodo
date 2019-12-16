@@ -9,25 +9,24 @@
               v-icon( right) person
 </template>
 
-<script>
-var firebase = require("firebase");
-var firebaseui = require("firebaseui");
+<script lang='coffee'>
 
-var db = firebase.firestore();
+firebase = require("firebase");
+firebaseui = require("firebaseui");
 
-export default {
-  data() {
-    return {
-      token: "",
-      user: ""
-    };
-  },
-  methods: {
-    async login() {
-      var provider = new firebase.auth.GoogleAuthProvider();
+db = firebase.firestore();
+
+export default 
+  data: () ->
+    return 
+      user: ''
+      token: ''
+  methods: 
+    login: () ->
+      provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope("profile");
       provider.addScope("email");
-      var result = await firebase.auth().signInWithPopup(provider);
+      result = await firebase.auth().signInWithPopup(provider);
 
       this.token = result.credential.accessToken;
       this.user = result.user;
@@ -35,7 +34,5 @@ export default {
       localStorage.setItem("user", JSON.stringify(this.user));
       this.$emit("set_login_variables");
       this.$router.push("/todos");
-    }
-  }
-};
+
 </script>
