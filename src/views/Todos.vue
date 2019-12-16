@@ -23,18 +23,29 @@
                     v-spacer
                     v-btn( @click="addtodo" color="primary" outlined rounded  ) add todo
             v-container
-              v-data-table( :items='todos' :headers='headers' :serach='search')
+              v-data-table( calculate-widths :items='todos' :headers='headers' :search='search' )
                 template( v-slot:top )
                   v-text-field( solo v-model='search' label='search' prepend-icon="search" )
+                template( v-slot:no-data )
+                  v-row(justify='center')
+                    v-col 
+                      v-btn( @click="dialog.on = true" color="primary"  rounded  ) new todo
+                //- template( v-slot:header="{props}")
+                //-   v-row( justify='left') 
+                //-     v-col( v-for="n of props.headers") {{ n.text }}
+                   
                 template( v-slot:item.action='{ item }')
+                  
                   v-icon( small @click="deleteTodo(item.id, todos.indexOf(item))" ) delete
+                
 </template>
 
 <script lang='coffee'>
+
 fire = require("firebase");
 firebaseui = require("firebaseui");
 
-firebaseConfig = {
+firebaseConfig = 
   apiKey: "AIzaSyD-_8yty6d8oUJ99NA56qXBylYxgOXJOj4",
   authDomain: "todo-app-kek.firebaseapp.com",
   databaseURL: "https://todo-app-kek.firebaseio.com",
@@ -43,9 +54,9 @@ firebaseConfig = {
   messagingSenderId: "781014454227",
   appId: "1:781014454227:web:5335ee21a7e6e21771e926",
   measurementId: "G-E50Y0TVVTP"
-};
 
-firebase = fire.initializeApp(firebaseConfig);
+
+firebase = fire.initializeApp firebaseConfig
 db = firebase.firestore();
 export default 
   name: "app"
@@ -56,9 +67,8 @@ export default
       dialog: 
         on: false,
         todo: ""
-      
       headers: [
-        { value: "data", text: "todo" }
+        { value: "data", text: "todo", width: '90%' }
         { text: "Actions", value: "action", sortable: false,  }
       ]
   mounted: () ->
