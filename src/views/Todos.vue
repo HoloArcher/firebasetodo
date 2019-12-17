@@ -17,8 +17,8 @@
                     v-row()
                       v-col()
                         v-text-field( label='todo' v-model="dialog.todo"  )
-                      //- v-col()
-                      //-   v-text-field( label='other' )
+                      v-col()
+                        v-select(:items="['high', 'normal', 'low']" v-model='dialog.priority' label='priority')
                   v-card-actions
                     v-spacer
                     v-btn( @click="addtodo" color="primary" outlined rounded  ) add todo
@@ -30,12 +30,9 @@
                   v-row(justify='center')
                     v-col 
                       v-btn( @click="dialog.on = true" color="primary"  rounded  ) new todo
-                //- template( v-slot:header="{props}")
-                //-   v-row( justify='left') 
-                //-     v-col( v-for="n of props.headers") {{ n.text }}
                    
                 template( v-slot:item.action='{ item }')
-                  
+
                   v-icon( small @click="deleteTodo(item.id, todos.indexOf(item))" ) delete
                 
 </template>
