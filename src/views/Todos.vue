@@ -31,8 +31,7 @@
                     v-col 
                       v-btn( @click="dialog.on = true" color="primary"  rounded  ) new todo
                    
-                template( v-slot:item.action='{ item }')
-
+                template( v-slot:item.action='{ item }') 
                   v-icon( small @click="deleteTodo(item.id, todos.indexOf(item))" ) delete
                 
 </template>
@@ -40,7 +39,6 @@
 <script lang='coffee'>
 
 fire = require("firebase");
-firebaseui = require("firebaseui");
 
 firebaseConfig = 
   apiKey: "AIzaSyD-_8yty6d8oUJ99NA56qXBylYxgOXJOj4",
@@ -63,10 +61,12 @@ export default
       search: ""
       dialog: 
         on: false,
-        todo: ""
+        todo: "",
+        priority: ''
       headers: [
-        { value: "data", text: "todo", width: '90%' }
-        { text: "Actions", value: "action", sortable: false,  }
+        { value: "todo", text: "todo", width: '89%' }
+        { value: 'priority', text: 'priority', width: '10%'}
+        { text: "Actions", value: "action", sortable: false, width: '1%'  }
       ]
   mounted: () ->
     this.set_login_variables();
@@ -79,9 +79,9 @@ export default
     data = [];
 
     storage.forEach( (el) ->
-      data.push {data: el.data().data, id: el.id})
+      { todo, priority } = el.data()
+      data.push {todo, priority, id: el.id})
       
-
     this.todos = data;
     this.dialog.on = false;
   
@@ -89,8 +89,7 @@ export default
     set_login_variables: () ->
       this.user = JSON.parse(localStorage.getItem("user"));
     addtodo: () ->
-      data =
-        data: this.dialog.todo 
+      data = this.dialog
       temp = await db
         .collection("users")
         .doc(this.user.uid)
@@ -98,8 +97,10 @@ export default
         .add(data);
 
       data.id = temp.id;
+      console.log data
       this.todos.push data
       this.dialog.on = false
+      this.dialog.todo = ''
 
     deleteTodo: (id, index) ->
       console.log id

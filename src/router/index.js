@@ -20,11 +20,23 @@ const routes = [
 ]
 
 
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+
+})
+
+router.beforeEach((to, from, next) => {
+  var authorized = (localStorage.getItem('token')) ? localStorage.getItem('token') : undefined;
+  if (typeof authorized === 'undefined' && to.path == '/todos') {
+    return next('/')
+  } else if (authorized && to.path === '/') {
+    next('/todos')
+  }
+  else {
+    next()
+  }
 })
 
 export default router
