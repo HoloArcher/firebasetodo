@@ -18,6 +18,7 @@
 		"indent": [
 			"error",
 			"tab"
-		]
+		],
+		"semi": "0"
 	}
 }
