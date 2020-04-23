@@ -12,7 +12,7 @@
 <script lang='coffee'>
 
 firebase = require("firebase");
-firebaseui = require("firebaseui");
+# firebaseui = require("firebaseui");
 
 db = firebase.firestore();
 
@@ -24,7 +24,6 @@ export default
   methods: 
     login: () ->
       provider = new firebase.auth.GoogleAuthProvider();
-		
       provider.addScope("profile");
       provider.addScope("email");
       result = await firebase.auth().signInWithPopup(provider);
